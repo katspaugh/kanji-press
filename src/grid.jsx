@@ -81,8 +81,8 @@ export default class Grid extends React.Component {
     });
 
     return (
-      <div className="kanji-grid">
-        { squares }
+      <div className="kanji-main">
+        <div className="kanji-grid">{ squares }</div>
       </div>
     );
   }

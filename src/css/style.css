@@ -20,6 +20,26 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+.kanji-cover {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: repeat;
+    background-position: center center;
+    transition: opacity 100ms 1.5s ease-in;
+}
+
+@media only screen and (orientation: portrait) {
+    .kanji-cover {
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 }
 
 .kanji-main {
@@ -37,6 +57,13 @@ html, body {
     align-items: center;
     box-sizing: border-box;
     user-select: none;
+}
+
+@media only screen and (orientation: portrait) {
+    .kanji-grid {
+        width: 96vw;
+        height: 96vw;
+    }
 }
 
 .kanji-square {
@@ -75,11 +102,26 @@ html, body {
     cursor: default;
 }
 
+@media only screen and (orientation: portrait) {
+    .kanji-square span {
+        line-height: 19vw;
+        font-size: 9vw;
+    }
+}
+
 .kanji-info {
+    position: relative;
+    z-index: 2;
     max-height: 30vh;
     font-size: 5vh;
     padding: 2vh 5vh;
     text-align: center;
+}
+
+@media only screen and (orientation: portrait) {
+    .kanji-info {
+        max-height: 100%;
+    }
 }
 
 .kanji-task {
@@ -87,9 +129,9 @@ html, body {
 }
 
 .kanji-hint {
-    margin-top: 1em;
     font-size: 0.8em;
-    transition: transform 300ms ease-in;
+    line-height: 10vh;
+    transition: transform 100ms ease-in;
 }
 
 .kanji-info__correct .kanji-task {
@@ -97,24 +139,7 @@ html, body {
 }
 
 .kanji-info__correct .kanji-hint {
-    margin-top: 0;
     transform: scale(2);
-}
-
-@media only screen and (orientation: portrait) {
-    .kanji-info {
-        max-height: 100%;
-    }
-
-    .kanji-grid {
-        width: 96vw;
-        height: 96vw;
-    }
-
-    .kanji-square span {
-        line-height: 19vw;
-        font-size: 9vw;
-    }
 }
 
 .kanji-settings-button {

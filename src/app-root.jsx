@@ -116,6 +116,12 @@ export default class AppRoot extends React.Component {
     };
   }
 
+  isFinished() {
+      let currentWordIndex = this.state.currentWordIndex;
+      return (this.state.correctCount != this.state.words[currentWordIndex][0].length) &&
+        (currentWordIndex + 1 >= this.state.words.length);
+  }
+
   onSelect(item) {
     let currentWordIndex = this.state.currentWordIndex;
     let currentWord = this.state.words[currentWordIndex];
@@ -148,17 +154,21 @@ export default class AppRoot extends React.Component {
     speakWord(currentWord[1]);
 
     // Update the rest of the state with a timeout
-    setTimeout(() => {
-      if (currentWordIndex + 1 >= this.state.words.length) {
-        this.setState(this.getFreshState());
-      } else {
-        this.setState({
-          correctCount: 0,
-          incorrectCount: 0,
-          currentWordIndex: currentWordIndex + 1
-        });
-      }
-    }, 2000);
+    let state, delay;
+
+    if (this.isFinished()) {
+      state = this.getFreshState();
+      delay = 7000;
+    } else {
+      state = {
+        correctCount: 0,
+        incorrectCount: 0,
+        currentWordIndex: currentWordIndex + 1
+      };
+      delay = 1500;
+    }
+
+    setTimeout(() => this.setState(state), delay);
   }
 
   onLevelSelect(level, value) {
@@ -169,22 +179,20 @@ export default class AppRoot extends React.Component {
   render() {
     let currentWord = this.state.words[this.state.currentWordIndex];
     let isCorrect = this.state.correctCount == currentWord[0].length;
+    let isFinished = isCorrect && this.state.currentWordIndex == this.state.words.length - 1;
     let hint = this.state.incorrectCount > 0 ? currentWord[1] : '';
     if (isCorrect) hint = currentWord[0];
 
     return (
       <div className="kanji-app">
-        <div className="kanji-top">
-          <Info task={ currentWord[2] }
-                hint={ hint }
-                correct={ isCorrect } />
-        </div>
+        <Info task={ currentWord[2] }
+              hint={ hint }
+              correct={ isCorrect }
+              finished={ isFinished }/>
 
-        <div className="kanji-main">
-          <Grid words={ this.state.words }
-                doneItems={ this.state.activeItems }
-                onSelect={ this.onSelect.bind(this) } />
-        </div>
+        <Grid words={ this.state.words }
+              doneItems={ this.state.activeItems }
+              onSelect={ this.onSelect.bind(this) } />
 
         <Settings levels={ this.state.levels } onLevelSelect={ this.onLevelSelect.bind(this) } />
       </div>
