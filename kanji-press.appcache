@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# 2016-12-11:v1
+
+index.html
+src/css/style.css
+/src/images/cover-1.gif
+/src/images/cover-2.gif
+/src/images/cover-3.gif
+src/sounds/right.wav
+src/sounds/wrong.wav
+dist/app.js

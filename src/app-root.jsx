@@ -158,7 +158,7 @@ export default class AppRoot extends React.Component {
 
     if (this.isFinished()) {
       state = this.getFreshState();
-      delay = 7000;
+      delay = 5000;
     } else {
       state = {
         correctCount: 0,

@@ -150,7 +150,7 @@ html, body {
     height: 1em;
     width: 1em;
     line-height: 1em;
-    z-index: 1;
+    z-index: 3;
     cursor: pointer;
     color: #333;
     text-align: center;

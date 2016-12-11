@@ -1,13 +1,12 @@
 import React from 'react';
 
 const backgrounds = [
-  'https://67.media.tumblr.com/9c41d47fc9ed73697dc5147294574382/tumblr_nq5o3iN7uJ1rd4ymxo1_500.gif',
-  'http://media1.giphy.com/media/MhHXeM4SpKrpC/giphy.gif',
-  'https://media.giphy.com/media/MziKDo6gO7x8A/giphy.gif'
+  '/src/images/cover-1.gif',
+  '/src/images/cover-2.gif',
+  '/src/images/cover-3.gif'
 ];
 
-// Pre-load backgrounds
-backgrounds.forEach((url) => (new Image()).src = url);
+const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 export default class Info extends React.Component {
   render() {
@@ -20,8 +19,7 @@ export default class Info extends React.Component {
     let style = {};
 
     if (this.props.finished) {
-      let image = backgrounds.shift();
-      backgrounds.push(image);
+      let image = getRandom(backgrounds);
       style.backgroundImage = `url(${ image })`;
       style.opacity = 1;
     }

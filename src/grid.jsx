@@ -62,9 +62,9 @@ export default class Grid extends React.Component {
     return grid;
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (nextProps.words !== this.props.words) {
-      this.setState({ grid: this.getGrid(this.props.words) });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.words != this.props.words) {
+      this.setState({ grid: this.getGrid(nextProps.words) });
     }
   }
 
