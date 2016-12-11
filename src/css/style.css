@@ -1,0 +1,157 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: #333;
+}
+
+.kanji-app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanji-top {
+    width: 100%;
+    align-self: flex-start;
+    flex-grow: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kanji-main {
+    width: 100%;
+    align-self: flex-end;
+}
+
+.kanji-grid {
+    width: 70vh;
+    height: 70vh;
+    display: flex;
+    margin: 1vh auto;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.kanji-square {
+    width: 20%;
+    height: 20%;
+    transition: transform 100ms ease-in;
+}
+
+@media (pointer:fine) {
+    .kanji-square:hover {
+        transform: scale(1.2);
+    }
+}
+
+.kanji-square:active,
+.kanji-square__done:hover {
+    transform: none;
+}
+
+.kanji-square span {
+    background: #fff;
+    line-height: 14vh;
+    font-size: 6vh;
+    text-align: center;
+    width: 96%;
+    height: 96%;
+    margin: 2%;
+    display: block;
+    border: 1px solid #333;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.kanji-square__done span {
+    border: none;
+    cursor: default;
+}
+
+.kanji-info {
+    max-height: 30vh;
+    font-size: 5vh;
+    padding: 2vh 5vh;
+    text-align: center;
+}
+
+.kanji-task {
+    font-family: Times, serif;
+}
+
+.kanji-hint {
+    margin-top: 1em;
+    font-size: 0.8em;
+    transition: transform 300ms ease-in;
+}
+
+.kanji-info__correct .kanji-task {
+    display: none;
+}
+
+.kanji-info__correct .kanji-hint {
+    margin-top: 0;
+    transform: scale(2);
+}
+
+@media only screen and (orientation: portrait) {
+    .kanji-info {
+        max-height: 100%;
+    }
+
+    .kanji-grid {
+        width: 96vw;
+        height: 96vw;
+    }
+
+    .kanji-square span {
+        line-height: 19vw;
+        font-size: 9vw;
+    }
+}
+
+.kanji-settings-button {
+    position: absolute;
+    right: 1vh;
+    top: 1vh;
+    padding: 1vh;
+    height: 1em;
+    width: 1em;
+    line-height: 1em;
+    z-index: 1;
+    cursor: pointer;
+    color: #333;
+    text-align: center;
+}
+
+.kanji-settings-button:active,
+.kanji-settings-button:hover {
+    color: #000;
+}
+
+.kanji-settings-button:before {
+    content: '⚙';
+    font-family: Menlo, monospace;
+    font-size: 3vh;
+}
+
+.kanji-settings-popup {
+    position: absolute;
+    z-index: 2;
+    right: 1vh;
+    top: 5vh;
+    padding: 1vh 2vh;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.kanji-settings-control {
+    margin: 0.5em 0;
+}
