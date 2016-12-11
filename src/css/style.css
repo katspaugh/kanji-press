@@ -94,13 +94,12 @@ html, body {
     height: 96%;
     margin: 2%;
     display: block;
-    border: 1px solid #333;
+    border: 1px solid transparent;
     box-sizing: border-box;
     cursor: pointer;
 }
 
 .kanji-square__done span {
-    border: none;
     cursor: default;
 }
 

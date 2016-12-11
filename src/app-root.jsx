@@ -151,7 +151,7 @@ export default class AppRoot extends React.Component {
 
     if (correctCount != currentWordText.length) return;
 
-    speakWord(currentWord[1]);
+    speakWord(currentWord[0]);
 
     // Update the rest of the state with a timeout
     let state, delay;
