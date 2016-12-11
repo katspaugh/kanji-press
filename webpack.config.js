@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -8,7 +9,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/index.jsx'),
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname),
     filename: 'app.js'
   },
 
@@ -25,5 +26,14 @@ module.exports = {
       },
       { test: /\.json$/, loader: 'json' }
     ]
-  }
+  },
+
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };

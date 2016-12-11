@@ -10,7 +10,6 @@ if (ac.state == 'suspended') {
 const createSource = (buffer) => {
   let source = ac.createBufferSource();
   source.buffer = buffer;
-  ac.destination.disconnect();
   source.connect(ac.destination);
   source.start = source.start || source.noteGrainOn;
   return source;
