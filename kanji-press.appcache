@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-12-11:v1
+# 2016-12-12:v1.0.1
 
 index.html
 src/css/style.css
@@ -8,4 +8,4 @@ src/css/style.css
 /src/images/cover-3.gif
 src/sounds/right.wav
 src/sounds/wrong.wav
-dist/app.js
+app.js
