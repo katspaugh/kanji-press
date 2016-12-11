@@ -16,6 +16,12 @@ const createSource = (buffer) => {
   return source;
 };
 
+const decode = (data) => {
+  return new Promise((resolve, reject) => {
+    ac.decodeAudioData(data, resolve, reject)
+  });
+};
+
 const ajax = (url) => {
   let xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -29,12 +35,13 @@ const ajax = (url) => {
 };
 
 let rightBuffer, wrongBuffer;
+
 ajax(rightSound)
-  .then((data) => ac.decodeAudioData(data))
+  .then(decode)
   .then((buffer) => rightBuffer = buffer);
 
 ajax(wrongSound)
-  .then((data) => ac.decodeAudioData(data))
+  .then(decode)
   .then((buffer) => wrongBuffer = buffer);
 
 export default {
