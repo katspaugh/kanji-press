@@ -94,7 +94,7 @@ html, body {
     height: 96%;
     margin: 2%;
     display: block;
-    border: 1px solid transparent;
+    border: 1px solid #ddd;
     box-sizing: border-box;
     cursor: pointer;
 }

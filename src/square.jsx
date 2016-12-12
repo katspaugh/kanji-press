@@ -6,7 +6,7 @@ export default class Square extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { color: getRandomColor(), altColor: getRandomColor() };
+    this.state = { color: getRandomColor() };
   }
 
   onClick(e) {
@@ -19,8 +19,8 @@ export default class Square extends React.Component {
     let item = this.props.item;
 
     let style = {
-      background: this.props.isDone ? item.color : '',
-      borderImage: `linear-gradient(to top left, ${ this.state.color }, ${ this.state.altColor }) 1`
+      backgroundColor: this.props.isDone ? item.color : '',
+      borderColor: this.state.color
     };
 
     return (

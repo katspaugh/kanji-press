@@ -1,10 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 
+var isProd = (process.env.NODE_ENV == 'production');
+
 module.exports = {
   devtool: 'cheap-module-source-map',
   cache: true,
-  debug: true,
+  debug: !isProd,
 
   entry: path.resolve(__dirname, 'src/index.jsx'),
 
@@ -28,12 +30,12 @@ module.exports = {
     ]
   },
 
-  plugins: [
+  plugins: isProd ? [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin()
-  ]
+  ] : []
 };

@@ -18,14 +18,28 @@ const wordLists = {
   jlpt2: jlpt2
 };
 
-const squaresCount = 25;
-
-const wordLengthDistribution = {
-  4: 1,
-  3: 1,
-  2: 8,
-  1: 2
-};
+const wordLengthDistributions = [
+  {
+    4: 1,
+    3: 1,
+    2: 7,
+    1: 4
+  }, {
+    3: 2,
+    2: 8,
+    1: 3
+  }, {
+    3: 1,
+    2: 10,
+    1: 2
+  }, {
+    2: 11,
+    1: 3
+  }, {
+    2: 12,
+    1: 1
+  }
+];
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -74,34 +88,34 @@ export default class AppRoot extends React.Component {
     Object.assign(this.state, this.getFreshState());
   }
 
-  componentDidUpdate() {
-    let stateToSave = { levels: this.state.levels };
-    localStorage.setItem('kanji-press', JSON.stringify(stateToSave));
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.levels != this.state.levels) {
+      localStorage.setItem('kanji-press', JSON.stringify({ levels: this.state.levels }));
+    }
   }
 
   getWords() {
-    let data = [];
+    let data = Object.keys(this.state.levels)
+      .filter((key) => this.state.levels[key])
+      .reduce((acc, key) => acc.concat(wordLists[key]), []);
 
-    for (let key in this.state.levels) {
-      if (this.state.levels[key]) {
-        data = data.concat(wordLists[key]);
-      }
-    }
+    if (!data.length) return this.state.words;
 
-    if (!data.length) {
-      return this.state.words;
-    }
+    let distribution = getRandom(wordLengthDistributions);
 
-    let words = [];
-
-    for (let length in wordLengthDistribution) {
-      let filteredWords = data.filter((item) => item[0].length == length);
-      let times = wordLengthDistribution[length];
-
-      for (let i = 0; i < times; i++) {
-        words.push(getRandom(filteredWords));
-      }
-    }
+    let words = Object.keys(distribution)
+      .reduce((acc, key) => {
+        let filteredWords = data.filter((item) => item[0].length == key);
+        let times = distribution[key];
+        let words = Array.from(Array(times)).map(() => {
+          let word = getRandom(filteredWords);
+          for (let i = 0; i < filteredWords.length && acc.indexOf(word) != -1; i++) {
+            word = getRandom(filteredWords);
+          }
+          return word;
+        });
+        return acc.concat(words);
+      }, []);
 
     return shuffle(words);
   }
@@ -151,7 +165,7 @@ export default class AppRoot extends React.Component {
 
     if (correctCount != currentWordText.length) return;
 
-    speakWord(currentWord[0]);
+    speakWord(currentWord[1]);
 
     // Update the rest of the state with a timeout
     let state, delay;

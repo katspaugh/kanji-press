@@ -1,14 +1,9 @@
 import React from 'react';
 
-import packings from './packings.js';
 import Square from './square.jsx';
 
 
-const packingKeys = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l' ]
-  .reduce((acc, key) => {
-    acc[key] = packings[0].match(new RegExp(key, 'g')).length;
-    return acc;
-  }, {});
+const squaresCount = 25;
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -24,40 +19,71 @@ export default class Grid extends React.Component {
     };
   }
 
+  getSymbols(word) {
+    let color = getRandomColor();
+
+    let symbols = word[0].split('').map((char, index) => {
+      return {
+        symbol: char,
+        index: index,
+        info: word,
+        color: color
+      };
+    });
+
+    return symbols;
+  }
+
+  addToGrid(grid, symbols) {
+    const gridSize = Math.sqrt(squaresCount);
+
+    let emptyIndeces = grid.reduce((acc, val, index) => {
+      if (val == null) acc.push(index);
+      return acc;
+    }, []);
+
+    let startIndex = getRandom(emptyIndeces);
+
+    symbols.reduce((prevIndex, sym) => {
+      grid[prevIndex] = sym;
+
+      let possibleSteps;
+
+      // Left-most column
+      if ((prevIndex + 1) % gridSize == 1) {
+        possibleSteps = [ -5, -4, 1, 5, 6 ];
+      // Right-most column
+      } else if ((prevIndex + 1) % gridSize == 0) {
+        possibleSteps = [ -6, -5, -1, 4, 5 ];
+      } else {
+        possibleSteps = [ -6, -5, -4, -1, 1, 4, 5, 6 ];
+      }
+
+      possibleSteps = possibleSteps.filter((n) => prevIndex + n >= 0 && prevIndex + n < squaresCount);
+
+      // Determine a square for the next symbol
+      let nextIndex = prevIndex;
+      while (possibleSteps.length && grid[nextIndex] != null) {
+        let stepIndex = Math.floor(Math.random() * possibleSteps.length);
+        nextIndex = prevIndex + possibleSteps[stepIndex];
+        possibleSteps.splice(stepIndex, 1);
+      }
+
+      if (grid[nextIndex] != null) nextIndex = grid.indexOf(null);
+
+      return nextIndex;
+    }, startIndex);
+  }
+
   getGrid(words) {
     let grid = [];
-    let packing = getRandom(packings).replace(/\s/g, '');
+    for (let i = 0; i < squaresCount; i++) grid.push(null);
 
-    let wordsByLength = words.reduce((acc, word) => {
-      let length = word[0].length;
-      if (!(length in acc)) acc[length] = [];
-      acc[length].push(word);
-      return acc;
-    }, {});
-
-    for (let key in packingKeys) {
-      let length = packingKeys[key];
-      let word = wordsByLength[length].shift();
-      let color = getRandomColor();
-      let count = 0;
-
-      let symbols = word[0].split('').map((s, i) => {
-        return {
-          symbol: s,
-          index: i,
-          info: word,
-          color: color
-        }
+    words.slice()
+      .sort((a, b) => b[0].length - a[0].length)
+      .forEach((word) => {
+        this.addToGrid(grid, this.getSymbols(word));
       });
-
-      // Scramble two-kanji compounds
-      if (symbols.length == 2) symbols.reverse();
-
-      packing.replace(new RegExp(key, 'g'), (s, index) => {
-        grid[index] = symbols[count];
-        count += 1;
-      });
-    }
 
     return grid;
   }
