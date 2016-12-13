@@ -76,7 +76,7 @@ html, body {
 
 @media (pointer:fine) {
     .kanji-square:hover {
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
 }
 

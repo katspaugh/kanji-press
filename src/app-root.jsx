@@ -59,10 +59,8 @@ const speakWord = (word) => {
   speech.lang = lang;
   speech.rate = 0.75;
 
-  setTimeout(() => {
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(speech);
-  }, 300);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech);
 };
 
 
@@ -86,6 +84,9 @@ export default class AppRoot extends React.Component {
     }
 
     Object.assign(this.state, this.getFreshState());
+
+    this._onSelect = this.onSelect.bind(this);
+    this._onLevelSelect = this.onLevelSelect.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -105,16 +106,22 @@ export default class AppRoot extends React.Component {
 
     let words = Object.keys(distribution)
       .reduce((acc, key) => {
+        const retries = 10;
         let filteredWords = data.filter((item) => item[0].length == key);
         let times = distribution[key];
-        let words = Array.from(Array(times)).map(() => {
-          let word = getRandom(filteredWords);
-          for (let i = 0; i < filteredWords.length && acc.indexOf(word) != -1; i++) {
-            word = getRandom(filteredWords);
+        let randomWords = [];
+
+        for (let i = 0; i < times; i++) {
+          for (let j = 0; j < retries; j++) {
+            let word = getRandom(filteredWords);
+            if (randomWords.indexOf(word) == -1) {
+              randomWords.push(word);
+              break;
+            }
           }
-          return word;
-        });
-        return acc.concat(words);
+        }
+
+        return acc.concat(randomWords);
       }, []);
 
     return shuffle(words);
@@ -165,7 +172,8 @@ export default class AppRoot extends React.Component {
 
     if (correctCount != currentWordText.length) return;
 
-    speakWord(currentWord[1]);
+    // Speak the word
+    setTimeout(() => speakWord(currentWord[1]), 300);
 
     // Update the rest of the state with a timeout
     let state, delay;
@@ -173,6 +181,8 @@ export default class AppRoot extends React.Component {
     if (this.isFinished()) {
       state = this.getFreshState();
       delay = 5000;
+
+      setTimeout(() => Sounds.playTada(), 1000);
     } else {
       state = {
         correctCount: 0,
@@ -206,9 +216,9 @@ export default class AppRoot extends React.Component {
 
         <Grid words={ this.state.words }
               doneItems={ this.state.activeItems }
-              onSelect={ this.onSelect.bind(this) } />
+              onSelect={ this._onSelect } />
 
-        <Settings levels={ this.state.levels } onLevelSelect={ this.onLevelSelect.bind(this) } />
+        <Settings levels={ this.state.levels } onLevelSelect={ this._onLevelSelect } />
       </div>
     );
   }

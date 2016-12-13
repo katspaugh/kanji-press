@@ -1,5 +1,8 @@
-const rightSound = '/src/sounds/right.wav';
-const wrongSound = '/src/sounds/wrong.wav';
+const sounds = {
+  right: '/src/sounds/right.wav',
+  wrong: '/src/sounds/wrong.wav',
+  tada:  '/src/sounds/tada.wav'
+};
 
 const ac = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -33,17 +36,21 @@ const ajax = (url) => {
   });
 };
 
-let rightBuffer, wrongBuffer;
+const playBuffer = (buffer) => {
+  setTimeout(() => {
+    createSource(buffer).start()
+  }, 0);
+};
 
-ajax(rightSound)
-  .then(decode)
-  .then((buffer) => rightBuffer = buffer);
-
-ajax(wrongSound)
-  .then(decode)
-  .then((buffer) => wrongBuffer = buffer);
+let buffers = Object.keys(sounds).reduce((acc, key) => {
+  ajax(sounds[key])
+    .then(decode)
+    .then((buffer) => acc[key] = buffer);
+  return acc;
+}, {});
 
 export default {
-  playRight: () => createSource(rightBuffer).start(),
-  playWrong: () => createSource(wrongBuffer).start()
+  playRight: () => playBuffer(buffers.right),
+  playWrong: () => playBuffer(buffers.wrong),
+  playTada:  () => playBuffer(buffers.tada)
 };

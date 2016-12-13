@@ -6,7 +6,9 @@ export default class Square extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { color: getRandomColor() };
+    this.randomColor = getRandomColor();
+
+    this._onClick = this.onClick.bind(this);
   }
 
   onClick(e) {
@@ -20,12 +22,13 @@ export default class Square extends React.Component {
 
     let style = {
       backgroundColor: this.props.isDone ? item.color : '',
-      borderColor: this.state.color
+      borderColor: this.randomColor,
+      pointerEvents: this.props.isDone ? 'none' : ''
     };
 
     return (
       <div className={ 'kanji-square' + (this.props.isDone ? ' kanji-square__done' : '') }
-           onClick={ this.onClick.bind(this) }>
+           onClick={ this._onClick }>
         <span style={ style }>{ item.symbol }</span>
       </div>
     );
