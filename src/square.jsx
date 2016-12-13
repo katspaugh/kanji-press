@@ -28,7 +28,7 @@ export default class Square extends React.Component {
 
     return (
       <div className={ 'kanji-square' + (this.props.isDone ? ' kanji-square__done' : '') }
-           onClick={ this._onClick }>
+           onMouseDown={ this._onClick }>
         <span style={ style }>{ item.symbol }</span>
       </div>
     );
