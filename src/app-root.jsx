@@ -10,12 +10,11 @@ import jlpt4 from '../data/jlpt4.json';
 import jlpt3 from '../data/jlpt3.json';
 import jlpt2 from '../data/jlpt2.json';
 
-
 const wordLists = {
-  jlpt5: jlpt5,
-  jlpt4: jlpt4,
-  jlpt3: jlpt3,
-  jlpt2: jlpt2
+  jlpt5,
+  jlpt4,
+  jlpt3,
+  jlpt2
 };
 
 const wordLengthDistributions = [
@@ -40,6 +39,8 @@ const wordLengthDistributions = [
     1: 1
   }
 ];
+
+const storageKey = 'kanji-press';
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -68,7 +69,7 @@ export default class AppRoot extends React.Component {
   constructor() {
     super();
 
-    let savedState = localStorage.getItem('kanji-press');
+    let savedState = localStorage.getItem(storageKey);
 
     if (savedState) {
       this.state = JSON.parse(savedState);
@@ -91,7 +92,7 @@ export default class AppRoot extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.levels != this.state.levels) {
-      localStorage.setItem('kanji-press', JSON.stringify({ levels: this.state.levels }));
+      localStorage.setItem(storageKey, JSON.stringify({ levels: this.state.levels }));
     }
   }
 
@@ -138,66 +139,74 @@ export default class AppRoot extends React.Component {
   }
 
   isFinished() {
-      let currentWordIndex = this.state.currentWordIndex;
-      return (this.state.correctCount != this.state.words[currentWordIndex][0].length) &&
-        (currentWordIndex + 1 >= this.state.words.length);
+    let currentWordIndex = this.state.currentWordIndex;
+    return (this.state.correctCount != this.state.words[currentWordIndex][0].length) &&
+      (currentWordIndex + 1 >= this.state.words.length);
+  }
+
+  setStateIncorrect() {
+    this.setState({
+      incorrectCount: this.state.incorrectCount + 1
+    });
+
+    Sounds.playWrong();
+  }
+
+  setStateCorrect(item) {
+    this.setState({
+      correctCount: this.state.correctCount + 1,
+      activeItems: this.state.activeItems.concat([ item ])
+    });
+
+    Sounds.playRight();
+  }
+
+  setStateNext() {
+    let newState = {
+      correctCount: 0,
+      incorrectCount: 0,
+      currentWordIndex: this.state.currentWordIndex + 1
+    };
+
+    setTimeout(() => this.setState(newState), 1500);
+
+    setTimeout(() => speakWord(this.state.words[this.state.currentWordIndex][1]), 300);
+  }
+
+  setStateReset() {
+    let newState = this.getFreshState();
+
+    setTimeout(() => this.setState(newState), 5000);
+
+    setTimeout(() => Sounds.playTada(), 1000);
   }
 
   onSelect(item) {
-    let currentWordIndex = this.state.currentWordIndex;
-    let currentWord = this.state.words[currentWordIndex];
-    let currentWordText = currentWord[0];
+    let currentWord = this.state.words[this.state.currentWordIndex];
     let correctCount = this.state.correctCount;
-    let correctSymbol = currentWordText.charAt(correctCount);
 
-    if (item.symbol != correctSymbol || item.info != currentWord || item.index != correctCount) {
-      this.setState({
-        incorrectCount: this.state.incorrectCount + 1
-      });
-      Sounds.playWrong();
+    if (item.info != currentWord || item.index != correctCount) {
+      this.setStateIncorrect();
       return;
     }
 
-    Sounds.playRight();
+    this.setStateCorrect(item);
 
-    let activeItems = this.state.activeItems;
-    correctCount += 1;
-    activeItems = activeItems.concat([ item ]);
-
-    // First, update the active item
-    this.setState({
-      correctCount: correctCount,
-      activeItems: activeItems
-    });
-
-    if (correctCount != currentWordText.length) return;
-
-    // Speak the word
-    setTimeout(() => speakWord(currentWord[1]), 300);
-
-    // Update the rest of the state with a timeout
-    let state, delay;
+    if (correctCount + 1 != currentWord[0].length) return;
 
     if (this.isFinished()) {
-      state = this.getFreshState();
-      delay = 5000;
-
-      setTimeout(() => Sounds.playTada(), 1000);
-    } else {
-      state = {
-        correctCount: 0,
-        incorrectCount: 0,
-        currentWordIndex: currentWordIndex + 1
-      };
-      delay = 1500;
+      this.setStateReset();
+      return;
     }
 
-    setTimeout(() => this.setState(state), delay);
+    this.setStateNext();
   }
 
   onLevelSelect(level, value) {
-    this.state.levels[level] = value;
-    this.setState(this.getFreshState());
+    let levels = Object.assign({}, this.state.levels);
+    levels[level] = value;
+    let newState = Object.assign({ levels: levels }, this.getFreshState());
+    this.setState(newState);
   }
 
   render() {
