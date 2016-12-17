@@ -86,7 +86,7 @@ html, body {
 }
 
 .kanji-square span {
-    background: #fff;
+    background-color: #fff;
     line-height: 14vh;
     font-size: 6vh;
     text-align: center;
@@ -97,10 +97,12 @@ html, body {
     border: 1px solid #ddd;
     box-sizing: border-box;
     cursor: pointer;
+    transition: background-color 100ms ease-in;
 }
 
 .kanji-square__done span {
     cursor: default;
+    border: none;
 }
 
 @media only screen and (orientation: portrait) {

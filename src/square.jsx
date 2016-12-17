@@ -13,7 +13,6 @@ export default class Square extends React.Component {
 
   onClick(e) {
     e.preventDefault();
-    if (this.props.isDone) return;
     this.props.onSelect(this.props.item);
   }
 
@@ -22,8 +21,7 @@ export default class Square extends React.Component {
 
     let style = {
       backgroundColor: this.props.isDone ? item.color : '',
-      borderColor: this.randomColor,
-      pointerEvents: this.props.isDone ? 'none' : ''
+      borderColor: this.randomColor
     };
 
     return (

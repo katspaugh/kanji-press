@@ -52,11 +52,11 @@ const shuffle = (arr) => {
   return arr;
 };
 
-const speakWord = (word) => {
+const speak = (text) => {
   const lang = 'ja-JP';
 
   let speech = new window.SpeechSynthesisUtterance();
-  speech.text = word
+  speech.text = text;
   speech.lang = lang;
   speech.rate = 0.75;
 
@@ -139,9 +139,12 @@ export default class AppRoot extends React.Component {
   }
 
   isFinished() {
-    let currentWordIndex = this.state.currentWordIndex;
-    return (this.state.correctCount != this.state.words[currentWordIndex][0].length) &&
-      (currentWordIndex + 1 >= this.state.words.length);
+    return this.state.currentWordIndex + 1 >= this.state.words.length;
+  }
+
+  speakWord() {
+    let word = this.state.words[this.state.currentWordIndex][1];
+    setTimeout(() => speak(word), 300);
   }
 
   setStateIncorrect() {
@@ -169,8 +172,6 @@ export default class AppRoot extends React.Component {
     };
 
     setTimeout(() => this.setState(newState), 1500);
-
-    setTimeout(() => speakWord(this.state.words[this.state.currentWordIndex][1]), 300);
   }
 
   setStateReset() {
@@ -182,6 +183,11 @@ export default class AppRoot extends React.Component {
   }
 
   onSelect(item) {
+    if (this.state.activeItems.indexOf(item) != -1) {
+      speak(item.info[1]);
+      return;
+    }
+
     let currentWord = this.state.words[this.state.currentWordIndex];
     let correctCount = this.state.correctCount;
 
@@ -193,6 +199,8 @@ export default class AppRoot extends React.Component {
     this.setStateCorrect(item);
 
     if (correctCount + 1 != currentWord[0].length) return;
+
+    this.speakWord();
 
     if (this.isFinished()) {
       this.setStateReset();
@@ -212,7 +220,7 @@ export default class AppRoot extends React.Component {
   render() {
     let currentWord = this.state.words[this.state.currentWordIndex];
     let isCorrect = this.state.correctCount == currentWord[0].length;
-    let isFinished = isCorrect && this.state.currentWordIndex == this.state.words.length - 1;
+    let isFinished = isCorrect && this.isFinished();
     let hint = this.state.incorrectCount > 0 ? currentWord[1] : '';
     if (isCorrect) hint = currentWord[0];
 
