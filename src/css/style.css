@@ -134,29 +134,38 @@ html, body {
 .kanji-hint {
     font-size: 0.8em;
     line-height: 10vh;
+}
+
+.kanji-answer {
+    display: none;
     transition: transform 100ms ease-in;
 }
 
+.kanji-info__correct .kanji-hint,
 .kanji-info__correct .kanji-task {
     display: none;
 }
 
-.kanji-info__correct .kanji-hint {
+.kanji-info__correct .kanji-answer {
+    display: block;
     transform: scale(2);
 }
 
 .kanji-settings-button {
     position: absolute;
-    right: 1vh;
-    top: 1vh;
+    right: 0.5vh;
+    top: 0.5vh;
     padding: 1vh;
     height: 1em;
     width: 1em;
-    line-height: 1em;
+    line-height: 1;
     z-index: 3;
     cursor: pointer;
     color: #333;
     text-align: center;
+    font-family: Menlo, monospace;
+    font-size: 5vh;
+    user-select: none;
 }
 
 .kanji-settings-button:active,
@@ -164,22 +173,21 @@ html, body {
     color: #000;
 }
 
-.kanji-settings-button:before {
-    content: '⚙';
-    font-family: Menlo, monospace;
-    font-size: 3vh;
-}
-
 .kanji-settings-popup {
     position: absolute;
     z-index: 2;
     right: 1vh;
-    top: 5vh;
+    top: 7vh;
     padding: 1vh 2vh;
     background: #fff;
     border: 1px solid #ddd;
+    font-size: 3vh;
 }
 
 .kanji-settings-control {
     margin: 0.5em 0;
+}
+
+.kanji-settings-control input {
+    margin-right: 0.5em;
 }

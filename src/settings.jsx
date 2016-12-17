@@ -24,7 +24,7 @@ export default class Settings extends React.Component {
 
     return (
       <div className="kanji-settings">
-        <div className="kanji-settings-button" onClick={ this.toggle.bind(this) }></div>
+        <div className="kanji-settings-button" onClick={ this.toggle.bind(this) }>⚙</div>
 
         <div className="kanji-settings-popup" style={ style }>
           <div className="kanji-settings-control">

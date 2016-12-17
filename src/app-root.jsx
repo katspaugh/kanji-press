@@ -168,15 +168,10 @@ export default class AppRoot extends React.Component {
   }
 
   onSelect(item) {
-    if (this.state.activeItems.indexOf(item) != -1) {
-      speak(item.info[1]);
-      return;
-    }
-
     let currentWord = this.state.words[this.state.currentWordIndex];
     let correctCount = this.state.correctCount;
 
-    if (item.info != currentWord || item.index != correctCount) {
+    if (item.symbol != currentWord[0].charAt(correctCount)) {
       this.setStateIncorrect();
       return;
     }
@@ -207,16 +202,17 @@ export default class AppRoot extends React.Component {
     let isCorrect = this.state.correctCount == currentWord[0].length;
     let isFinished = isCorrect && this.isFinished();
     let hint = this.state.incorrectCount > 0 ? currentWord[1] : '';
-    if (isCorrect) hint = currentWord[0];
 
     return (
       <div className="kanji-app">
         <Info task={ currentWord[2] }
               hint={ hint }
+              answer={ currentWord[0] }
               correct={ isCorrect }
               finished={ isFinished }/>
 
         <Grid words={ this.state.words }
+              currentWordIndex={ this.state.currentWordIndex }
               doneItems={ this.state.activeItems }
               onSelect={ this._onSelect } />
 

@@ -28,8 +28,8 @@ export default class Info extends React.Component {
       <div className="kanji-top">
         <div className={ 'kanji-info' + (this.props.correct ? ' kanji-info__correct' : '') }>
           <div className="kanji-task">{ task }</div>
-
           <div className="kanji-hint">{ this.props.hint }</div>
+          <div className="kanji-answer">{ this.props.answer }</div>
         </div>
 
         <div className="kanji-cover" style={ style }></div>

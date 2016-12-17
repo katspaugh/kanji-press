@@ -14,24 +14,16 @@ export default class Grid extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      grid: this.getGrid(props.words)
-    };
+    this.grid = this.getGrid(props.words);
+    this.colors = props.words.map(getRandomColor);
+
+    this._onSelect = this.onSelect.bind(this);
   }
 
   getSymbols(word) {
-    let color = getRandomColor();
-
-    let symbols = word[0].split('').map((char, index) => {
-      return {
-        symbol: char,
-        index: index,
-        info: word,
-        color: color
-      };
+    return word[0].split('').map((char, index) => {
+      return { symbol: char };
     });
-
-    return symbols;
   }
 
   addToGrid(grid, symbols) {
@@ -88,21 +80,26 @@ export default class Grid extends React.Component {
     return grid;
   }
 
+  onSelect(item) {
+    this.props.onSelect(item);
+    item.color = this.colors[this.props.currentWordIndex];
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.words != this.props.words) {
-      this.setState({ grid: this.getGrid(nextProps.words) });
+      this.grid = this.getGrid(nextProps.words);
     }
   }
 
   render() {
-    let squares = this.state.grid.map((item, i) => {
+    let squares = this.grid.map((item, i) => {
       let isDone = this.props.doneItems.indexOf(item) > -1;
 
       return (
         <Square key={ 'square-' + i }
                 item={ item }
                 isDone={ isDone }
-                onSelect={ this.props.onSelect } />
+                onSelect={ this._onSelect } />
       );
     });
 
