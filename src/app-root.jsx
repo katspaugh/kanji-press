@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 import Sounds from './sounds.js';
@@ -203,6 +204,8 @@ export default class AppRoot extends React.Component {
   }
 
   render() {
+    if (!this.state.words) return <div>Loading...</div>;
+
     let currentWord = this.state.words[this.state.currentWordIndex];
     let isCorrect = this.state.correctCount == currentWord[0].length;
     let isFinished = isCorrect && this.isFinished();
