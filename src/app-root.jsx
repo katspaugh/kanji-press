@@ -214,6 +214,7 @@ export default class AppRoot extends React.Component {
         <Info task={ currentWord[2] }
               hint={ hint }
               answer={ currentWord[0] }
+              reading={ currentWord[1] }
               showHint={ showHint }
               correct={ isCorrect }
               finished={ isFinished }/>

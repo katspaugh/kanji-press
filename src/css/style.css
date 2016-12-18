@@ -148,10 +148,7 @@ html, body {
 
 .kanji-answer-reading {
     font-size: 0.35em;
-    position: absolute;
-    margin-bottom: -0.4em;
-    width: 100%;
-    text-align: center;
+    font-weight: 100;
 }
 
 .kanji-info__correct .kanji-hint,

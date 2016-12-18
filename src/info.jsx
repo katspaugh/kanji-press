@@ -33,7 +33,7 @@ export default class Info extends React.Component {
           { hint }
           <div className="kanji-answer">
             { this.props.answer }
-            <div className="kanji-answer-reading">{ this.props.hint }</div>
+            <div className="kanji-answer-reading">{ this.props.reading }</div>
           </div>
         </div>
 
