@@ -97,7 +97,6 @@ html, body {
     border: 1px solid #ddd;
     box-sizing: border-box;
     cursor: pointer;
-    transition: background-color 100ms ease-in;
 }
 
 .kanji-square__done span {
@@ -133,7 +132,7 @@ html, body {
 
 .kanji-hint {
     font-size: 0.8em;
-    line-height: 10vh;
+    margin-top: 0.5em;
 }
 
 .kanji-answer {
@@ -145,6 +144,14 @@ html, body {
     white-space: nowrap;
     transform: translateX(-50%) translateY(-50%) scale(1);
     transition: transform 100ms ease-in;
+}
+
+.kanji-answer-reading {
+    font-size: 0.35em;
+    position: absolute;
+    margin-bottom: -0.4em;
+    width: 100%;
+    text-align: center;
 }
 
 .kanji-info__correct .kanji-hint,
@@ -196,4 +203,45 @@ html, body {
 
 .kanji-settings-control input {
     margin-right: 0.5em;
+}
+
+.kanji-bubble {
+    display: none;
+}
+
+@media only screen and (max-width: 1024px)  {
+    .kanji-bubble {
+        display: block;
+        background: rgba(30, 30, 30, 0.9);
+        color: #fff;
+        padding: 6vw;
+        left: 12%;
+        right: 12%;
+        bottom: 15px;
+        text-align: center;
+        position: fixed;
+        z-index: 10;
+        font-size: 4vh;
+        border-radius: 4px;
+        transform: translateY(120%);
+        transition: transform 300ms ease-in;
+    }
+
+    .kanji-bubble__visible {
+        transform: translateY(0);
+    }
+
+    .kanji-bubble:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 15px 15px 0px;
+        display: block;
+        width: 0px;
+        z-index: 1;
+        bottom: -15px;
+        left: 50%;
+        margin-left: -15px;
+        border-color: rgba(30, 30, 30, 0.9) transparent;
+    }
 }

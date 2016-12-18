@@ -24,12 +24,17 @@ export default class Info extends React.Component {
       style.opacity = 1;
     }
 
+    let hint = this.props.showHint ? <div className="kanji-hint">{ this.props.hint }</div> : '';
+
     return (
       <div className="kanji-top">
         <div className={ 'kanji-info' + (this.props.correct ? ' kanji-info__correct' : '') }>
           <div className="kanji-task">{ task }</div>
-          <div className="kanji-hint">{ this.props.hint }</div>
-          <div className="kanji-answer">{ this.props.answer }</div>
+          { hint }
+          <div className="kanji-answer">
+            { this.props.answer }
+            <div className="kanji-answer-reading">{ this.props.hint }</div>
+          </div>
         </div>
 
         <div className="kanji-cover" style={ style }></div>

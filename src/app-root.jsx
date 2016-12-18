@@ -4,6 +4,7 @@ import Sounds from './sounds.js';
 import Grid from './grid.jsx';
 import Info from './info.jsx';
 import Settings from './settings.jsx';
+import HomeScreenBubble from './home-screen-bubble.jsx';
 
 import jlpt5 from '../data/jlpt5.json';
 import jlpt4 from '../data/jlpt4.json';
@@ -119,7 +120,8 @@ export default class AppRoot extends React.Component {
       correctCount: 0,
       incorrectCount: 0,
       currentWordIndex: 0,
-      activeItems: []
+      activeItems: [],
+      showHomeScreenMsg: false
     };
   }
 
@@ -128,8 +130,9 @@ export default class AppRoot extends React.Component {
   }
 
   speakWord() {
-    let word = this.state.words[this.state.currentWordIndex][1];
-    setTimeout(() => speak(word), 300);
+    let item = this.state.words[this.state.currentWordIndex];
+    let text = item[1];
+    setTimeout(() => speak(text), 300);
   }
 
   setStateIncorrect() {
@@ -161,6 +164,8 @@ export default class AppRoot extends React.Component {
 
   setStateReset() {
     let newState = this.getFreshState();
+
+    newState.showHomeScreenMsg = true;
 
     setTimeout(() => this.setState(newState), 5000);
 
@@ -201,13 +206,15 @@ export default class AppRoot extends React.Component {
     let currentWord = this.state.words[this.state.currentWordIndex];
     let isCorrect = this.state.correctCount == currentWord[0].length;
     let isFinished = isCorrect && this.isFinished();
-    let hint = this.state.incorrectCount > 0 ? currentWord[1] : '';
+    let showHint = this.state.incorrectCount > 0;
+    let hint = this.state.incorrectCount > 2 ? currentWord[0] : currentWord[1];
 
     return (
       <div className="kanji-app">
         <Info task={ currentWord[2] }
               hint={ hint }
               answer={ currentWord[0] }
+              showHint={ showHint }
               correct={ isCorrect }
               finished={ isFinished }/>
 
@@ -217,6 +224,8 @@ export default class AppRoot extends React.Component {
               onSelect={ this._onSelect } />
 
         <Settings levels={ this.state.levels } onLevelSelect={ this._onLevelSelect } />
+
+        <HomeScreenBubble visible={ this.state.showHomeScreenMsg } />
       </div>
     );
   }
