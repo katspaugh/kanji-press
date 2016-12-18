@@ -199,13 +199,17 @@ export default class AppRoot extends React.Component {
   onLevelSelect(level, value) {
     let levels = Object.assign({}, this.state.levels);
     levels[level] = value;
+
+    let isAllOff = Object.keys(levels).every((key) => levels[key] == false)
+    if (isAllOff) {
+      levels.jlpt5 = true;
+    }
+
     let newState = Object.assign({ levels: levels }, this.getFreshState());
     this.setState(newState);
   }
 
   render() {
-    if (!this.state.words) return <div>Loading...</div>;
-
     let currentWord = this.state.words[this.state.currentWordIndex];
     let isCorrect = this.state.correctCount == currentWord[0].length;
     let isFinished = isCorrect && this.isFinished();

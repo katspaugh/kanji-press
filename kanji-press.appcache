@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2016-12-19:v1.1.2
+# 2016-12-19:v1.1.4
 
 index.html
 src/css/style.css
@@ -7,6 +7,7 @@ src/css/style.css
 /src/images/cover-2.gif
 /src/images/cover-3.gif
 /src/images/app-icon.png
+/src/images/app-splash.png
 src/sounds/right.wav
 src/sounds/wrong.wav
 src/sounds/tada.wav
