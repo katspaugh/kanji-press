@@ -43,7 +43,8 @@ const speak = (text) => {
   const lang = 'ja-JP';
 
   let speech = new window.SpeechSynthesisUtterance();
-  speech.text = text;
+  // The final dot makes the pronunciation much better. Go figure.
+  speech.text = text + '。';
   speech.lang = lang;
   speech.rate = 0.75;
 
