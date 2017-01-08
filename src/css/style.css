@@ -71,10 +71,13 @@ html, body {
 .kanji-square {
     width: 20%;
     height: 20%;
-    transition: transform 100ms ease-in;
 }
 
 @media (pointer:fine) {
+    .kanji-square {
+        transition: transform 100ms ease-in;
+    }
+
     .kanji-square:hover {
         transform: scale(1.1);
     }
@@ -161,26 +164,38 @@ html, body {
     transform: translateX(-50%) translateY(-50%) scale(2);
 }
 
-.kanji-settings-button {
+.kanji-button {
     position: absolute;
-    right: 0.5vh;
-    top: 0.5vh;
+    top: 1vh;
     padding: 1vh;
     height: 1em;
     width: 1em;
-    line-height: 1;
+    line-height: 4vh;
     z-index: 3;
     cursor: pointer;
     color: #333;
-    text-align: center;
+    text-align: left;
+    font-size: 4vh;
     font-family: Menlo, monospace;
-    font-size: 5vh;
+    text-align: center;
     user-select: none;
 }
 
-.kanji-settings-button:active,
-.kanji-settings-button:hover {
+.kanji-button:active,
+.kanji-button:hover {
     color: #000;
+}
+
+.kanji-button__settings {
+    right: 1vh;
+}
+
+.kanji-button__mute {
+    left: 1vh;
+}
+
+.kanji-button__muted {
+    opacity: 0.25;
 }
 
 .kanji-settings-popup {
@@ -196,6 +211,7 @@ html, body {
 
 .kanji-settings-control {
     margin: 0.5em 0;
+    user-select: none;
 }
 
 .kanji-settings-control input {
@@ -216,7 +232,7 @@ html, body {
         right: 12%;
         bottom: 15px;
         text-align: center;
-        position: fixed;
+        position: absolute;
         z-index: 10;
         font-size: 4vh;
         border-radius: 4px;
@@ -224,7 +240,7 @@ html, body {
         transition: transform 300ms ease-in;
     }
 
-    .kanji-bubble__visible {
+    .kanji-popup__visible .kanji-bubble {
         transform: translateY(0);
     }
 
@@ -241,4 +257,12 @@ html, body {
         margin-left: -15px;
         border-color: rgba(30, 30, 30, 0.9) transparent;
     }
+}
+
+.kanji-popup {
+    display: none;
+}
+
+.kanji-popup__visible {
+    display: block;
 }

@@ -41,12 +41,16 @@ const shuffle = (arr) => {
 
 const speak = (text) => {
   const lang = 'ja-JP';
+  const voices = window.speechSynthesis.getVoices().filter((voice) => voice.lang == lang);
+  const speech = new window.SpeechSynthesisUtterance();
 
-  let speech = new window.SpeechSynthesisUtterance();
-  // The final dot makes the pronunciation much better. Go figure.
+  if (voices.length > 1) {
+    speech.voice = voices[1];
+  }
+
   speech.text = text + '。';
   speech.lang = lang;
-  speech.rate = 0.75;
+  speech.rate = 1;
 
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(speech);
@@ -63,6 +67,8 @@ export default class AppRoot extends React.Component {
       this.state = JSON.parse(savedState);
     } else {
       this.state = {
+        isMute: false,
+
         levels: {
           jlpt5: true,
           jlpt4: false,
@@ -76,11 +82,15 @@ export default class AppRoot extends React.Component {
 
     this._onSelect = this.onSelect.bind(this);
     this._onLevelSelect = this.onLevelSelect.bind(this);
+    this._onMute = this.onMute.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.levels != this.state.levels) {
-      localStorage.setItem(storageKey, JSON.stringify({ levels: this.state.levels }));
+    if (prevState.levels != this.state.levels || prevState.isMute != this.state.isMute) {
+      localStorage.setItem(storageKey, JSON.stringify({
+        isMute: this.state.isMute,
+        levels: this.state.levels
+      }));
     }
   }
 
@@ -132,6 +142,8 @@ export default class AppRoot extends React.Component {
   }
 
   speakWord() {
+    if (this.state.isMute) return;
+
     let item = this.state.words[this.state.currentWordIndex];
     let text = item[1];
     setTimeout(() => speak(text), 300);
@@ -142,7 +154,7 @@ export default class AppRoot extends React.Component {
       incorrectCount: this.state.incorrectCount + 1
     });
 
-    Sounds.playWrong();
+    !this.state.isMute && Sounds.playWrong();
   }
 
   setStateCorrect(item) {
@@ -151,7 +163,7 @@ export default class AppRoot extends React.Component {
       activeItems: this.state.activeItems.concat([ item ])
     });
 
-    Sounds.playRight();
+    !this.state.isMute && Sounds.playRight();
   }
 
   setStateNext() {
@@ -171,7 +183,7 @@ export default class AppRoot extends React.Component {
 
     setTimeout(() => this.setState(newState), 5000);
 
-    setTimeout(() => Sounds.playTada(), 1000);
+    !this.state.isMute && setTimeout(() => Sounds.playTada(), 1000);
   }
 
   onSelect(item) {
@@ -198,16 +210,19 @@ export default class AppRoot extends React.Component {
   }
 
   onLevelSelect(level, value) {
-    let levels = Object.assign({}, this.state.levels);
-    levels[level] = value;
+    this.state.levels[level] = value;
 
-    let isAllOff = Object.keys(levels).every((key) => levels[key] == false)
+    let isAllOff = Object.keys(this.state.levels).every((key) => !this.state.levels[key])
     if (isAllOff) {
-      levels.jlpt5 = true;
+      this.state.levels.jlpt5 = true;
     }
 
-    let newState = Object.assign({ levels: levels }, this.getFreshState());
+    let newState = Object.assign({ levels: this.state.levels }, this.getFreshState());
     this.setState(newState);
+  }
+
+  onMute() {
+    this.setState({ isMute: !this.state.isMute });
   }
 
   render() {
@@ -232,7 +247,9 @@ export default class AppRoot extends React.Component {
               doneItems={ this.state.activeItems }
               onSelect={ this._onSelect } />
 
-        <Settings levels={ this.state.levels } onLevelSelect={ this._onLevelSelect } />
+        <Settings
+          levels={ this.state.levels } onLevelSelect={ this._onLevelSelect }
+          isMute={ this.state.isMute } onMute={ this._onMute } />
 
         <HomeScreenBubble visible={ this.state.showHomeScreenMsg } />
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Popup from './popup.jsx';
 
 const storageKey = 'kanji-press-home-screen-msg';
 
@@ -6,29 +7,23 @@ export default class HomeScreenBubble extends React.Component {
   constructor(props) {
     super(props);
 
-    this.shownOnce = localStorage.getItem(storageKey);
     this.state = { closed: false };
-
-    this._onOutsideClick = () => {
-      if (this.isVisible()) {
-        this.setState({ closed: true });
-      }
-    };
+    this._onClose = this.onClose.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', this._onOutsideClick);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this._onOutsideClick);
+    this.shownOnce = localStorage.getItem(storageKey);
   }
 
   componentDidUpdate() {
-    if (this.props.visible && !this.shownOnce) {
+    if (this.isVisible()) {
       localStorage.setItem(storageKey, true);
       this.shownOnce = true;
     }
+  }
+
+  onClose() {
+    this.setState({ closed: true });
   }
 
   isVisible() {
@@ -37,9 +32,9 @@ export default class HomeScreenBubble extends React.Component {
 
   render() {
     return (
-      <div className={ 'kanji-bubble' + (this.isVisible() ? ' kanji-bubble__visible' : '') }>
-        Add this web app to your Home Screen
-      </div>
+      <Popup visible={ this.isVisible() } onClose={ this._onClose }>
+        <div className="kanji-bubble">Add this web app to your Home Screen</div>
+      </Popup>
     );
   }
 }
