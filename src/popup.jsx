@@ -11,11 +11,13 @@ export default class Popup extends React.Component {
       }
     };
 
-    document.addEventListener('mousedown', this._onOutsideClick, true);
+    document.addEventListener('touchstart', this._onOutsideClick);
+    document.addEventListener('mousedown', this._onOutsideClick);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this._onOutsideClick, true);
+    document.removeEventListener('touchstart', this._onOutsideClick);
+    document.removeEventListener('mousedown', this._onOutsideClick);
   }
 
   render() {
