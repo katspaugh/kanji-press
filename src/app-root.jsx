@@ -78,10 +78,10 @@ export default class AppRoot extends React.Component {
       };
     }
 
-    jlpt5.forEach(function(entry) {entry.push("N5")});
-    jlpt4.forEach(function(entry) {entry.push("N4")});
-    jlpt3.forEach(function(entry) {entry.push("N3")});
-    jlpt2.forEach(function(entry) {entry.push("N2")});
+    jlpt5.forEach((entry) => entry.push('N5'));
+    jlpt4.forEach((entry) => entry.push("N4"));
+    jlpt3.forEach((entry) => entry.push("N3"));
+    jlpt2.forEach((entry) => entry.push("N2"));
 
     Object.assign(this.state, this.getFreshState());
 
