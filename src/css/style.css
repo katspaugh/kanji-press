@@ -169,12 +169,12 @@ html, body {
     transition: transform 100ms ease-in;
 }
 
-.kanji-answer-extra {
+.kanji-answer-reading {
     font-size: 0.35em;
     font-weight: 100;
 }
 
-.kanji-answer-extra span {
+.kanji-answer-reading span {
     color: #777;
 }
 
