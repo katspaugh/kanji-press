@@ -22,7 +22,10 @@ export default function render(props) {
 
       <div className="kanji-answer">
         { answer }
-        <div className="kanji-answer-reading">{ reading } – { level }</div>
+        <div className="kanji-answer-extra">
+          { reading }
+          <span> – { level }</span>
+        </div>
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export default class Square extends React.Component {
   }
 
   render() {
-    const style = this.props.color ?
+    const style = this.props.isDone ?
           Object.assign({ backgroundColor: this.props.color }, this.style) :
           this.style;
 

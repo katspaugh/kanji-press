@@ -7,3 +7,4 @@ ReactDOM.render(
   document.querySelector('#app-root')
 );
 
+document.addEventListener('touchmove', (e) => e.preventDefault(), false);

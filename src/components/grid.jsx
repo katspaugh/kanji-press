@@ -84,7 +84,7 @@ export default class Grid extends React.Component {
   render() {
     let squares = this.state.grid.map((item, i) => {
       const isDone = this.props.doneItems.indexOf(item) > -1;
-      const color = isDone ? this.colors[this.props.currentWordIndex] : null;
+      const color = this.colors[this.props.currentWordIndex];
 
       return (
         <Square key={ i }

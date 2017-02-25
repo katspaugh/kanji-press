@@ -11,8 +11,8 @@ export default class Settings extends React.Component {
     this.state = { visible: false };
 
     this._onChange = this.onChange.bind(this);
-    this._toggle = this.toggle.bind(this);
-    this._close = this.close.bind(this);
+    this._open = this.toggle.bind(this, true);
+    this._close = this.toggle.bind(this, false);
   }
 
   onChange(e) {
@@ -20,13 +20,16 @@ export default class Settings extends React.Component {
     this.props.onLevelSelect(value, !this.props.levels[value]);
   }
 
-  toggle(e) {
-    e.stopPropagation();
-    this.setState({ visible: !this.state.visible });
-  }
+  toggle(bool) {
+    if (this.state.visible === bool) return;
+    if (this.isToggling) return;
 
-  close() {
-    this.state.visible && this.setState({ visible: false });
+    this.isToggling = true;
+
+    setTimeout(() => {
+      this.setState({ visible: bool });
+      this.isToggling = false;
+    }, 10);
   }
 
   render() {
@@ -34,7 +37,7 @@ export default class Settings extends React.Component {
 
     return (
       <div className="kanji-settings">
-        <div className="kanji-button kanji-button__settings" onMouseUp={ this._toggle }>⚙</div>
+        <div className="kanji-button kanji-button__settings" onMouseUp={ this._open }>⚙</div>
 
         <div className={ 'kanji-button kanji-button__mute' + (this.props.isMute ? ' kanji-button__muted' : '') }
              onMouseDown={ this.props.onMute }>♫</div>

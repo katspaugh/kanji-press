@@ -104,7 +104,7 @@ export default class AppRoot extends React.Component {
     if (this.state.isMute) return;
 
     const item = this.state.words[this.state.currentWordIndex];
-    setTimeout(() => Speech(item.reading), 100);
+    setTimeout(() => Speech(item.word), 100);
   }
 
   setStateIncorrect() {

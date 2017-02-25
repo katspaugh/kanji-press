@@ -33,6 +33,8 @@ export default class HomeScreenBubble extends React.Component {
   }
 
   render() {
+    if (window.navigator.standalone) return null;
+
     return (
       <Popup visible={ this.isVisible() } onClose={ this._onClose }>
         <div className="kanji-bubble">Add this web app to your Home Screen</div>
