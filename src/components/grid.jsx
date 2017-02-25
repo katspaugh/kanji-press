@@ -1,29 +1,18 @@
 import React from 'react';
 
+import { randomColor, random } from '../services/utils.js';
 import Square from './square.jsx';
 
 
 const squaresCount = 25;
-
-const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-const getRandomColor = () => `hsl(${ ~~(Math.random() * 255) }, ${ 30 + ~~(Math.random() * 20) }%, ${ 60 + ~~(Math.random() * 20) }%)`;
 
 
 export default class Grid extends React.Component {
   constructor(props) {
     super(props);
 
-    this.grid = this.getGrid(props.words);
-    this.colors = props.words.map(getRandomColor);
-
-    this._onSelect = this.onSelect.bind(this);
-  }
-
-  getSymbols(word) {
-    return word[0].split('').map((char, index) => {
-      return { symbol: char };
-    });
+    this.colors = props.words.map(randomColor);
+    this.state = { grid: this.getGrid(props.words) };
   }
 
   addToGrid(grid, symbols) {
@@ -34,10 +23,10 @@ export default class Grid extends React.Component {
       return acc;
     }, []);
 
-    let startIndex = getRandom(emptyIndeces);
+    let startIndex = random(emptyIndeces);
 
-    symbols.reduce((prevIndex, sym) => {
-      grid[prevIndex] = sym;
+    symbols.reduce((prevIndex, symbol) => {
+      grid[prevIndex] = { symbol };
 
       let possibleSteps;
 
@@ -72,41 +61,42 @@ export default class Grid extends React.Component {
     for (let i = 0; i < squaresCount; i++) grid.push(null);
 
     words.slice()
-      .sort((a, b) => b[0].length - a[0].length)
+      .sort((a, b) => b.word.length - a.word.length)
       .forEach((word) => {
-        this.addToGrid(grid, this.getSymbols(word));
+        this.addToGrid(grid, word.word.split(''));
       });
 
     return grid;
   }
 
-  onSelect(item) {
-    this.props.onSelect(item);
-    item.color = this.colors[this.props.currentWordIndex];
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.words != this.props.words) {
-      this.grid = this.getGrid(nextProps.words);
+    if (nextProps.words !== this.props.words) {
+      this.colors = nextProps.words.map(randomColor);
+      this.setState({ grid: this.getGrid(nextProps.words) });
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.words !== this.props.words ||
+      nextProps.doneItems !== this.props.doneItems;
+  }
+
   render() {
-    let squares = this.grid.map((item, i) => {
-      let isDone = this.props.doneItems.indexOf(item) > -1;
+    let squares = this.state.grid.map((item, i) => {
+      const isDone = this.props.doneItems.indexOf(item) > -1;
+      const color = isDone ? this.colors[this.props.currentWordIndex] : null;
 
       return (
-        <Square key={ 'square-' + i }
+        <Square key={ i }
                 item={ item }
+                color={ color }
                 isDone={ isDone }
-                onSelect={ this._onSelect } />
+                onSelect={ this.props.onSelect } />
       );
     });
 
     return (
-      <div className="kanji-main">
-        <div className="kanji-grid">{ squares }</div>
-      </div>
+      <div className="kanji-grid">{ squares }</div>
     );
   }
 }

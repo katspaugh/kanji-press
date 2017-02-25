@@ -1,7 +1,9 @@
 import React from 'react';
+
+import Storage from '../services/storage.js';
 import Popup from './popup.jsx';
 
-const storageKey = 'kanji-press-home-screen-msg';
+const storage = new Storage('kanji-press-home-screen-msg');
 
 export default class HomeScreenBubble extends React.Component {
   constructor(props) {
@@ -12,12 +14,12 @@ export default class HomeScreenBubble extends React.Component {
   }
 
   componentDidMount() {
-    this.shownOnce = localStorage.getItem(storageKey);
+    this.shownOnce = storage.get();
   }
 
   componentDidUpdate() {
     if (this.isVisible()) {
-      localStorage.setItem(storageKey, true);
+      storage.set(true);
       this.shownOnce = true;
     }
   }

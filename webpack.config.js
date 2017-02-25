@@ -8,7 +8,7 @@ module.exports = {
   cache: true,
   debug: !isProd,
 
-  entry: path.resolve(__dirname, 'src/index.jsx'),
+  entry: path.resolve(__dirname, 'src/index.js'),
 
   output: {
     path: path.resolve(__dirname),
@@ -30,12 +30,5 @@ module.exports = {
     ]
   },
 
-  plugins: isProd ? [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin()
-  ] : []
+  plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : []
 };
