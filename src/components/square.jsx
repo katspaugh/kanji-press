@@ -19,7 +19,7 @@ export default class Square extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.isDone !== this.props.isDone;
+    return nextProps.isDone !== this.props.isDone || nextProps.item !== this.props.item;
   }
 
   componentWillReceiveProps(nextProps) {
