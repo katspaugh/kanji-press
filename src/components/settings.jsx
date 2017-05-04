@@ -1,12 +1,12 @@
 import React from 'react';
+import classnames from 'classnames';
 import Popup from './popup.jsx';
+import styles from '../css/settings.css';
 
-const soundIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300"><path d="M126.5625 301.0781 L60.3281 239.9062 L18.5625 239.9062 L18.5625 157.5 L60.4688 157.5 L126.5625 96.4688 L126.5625 301.0781 Z" fill="#000" stroke="none"/></svg>';
 
-
-export default class Settings extends React.Component {
-  constructor(props) {
-    super(props);
+export default class Settings extends React.PureComponent {
+  constructor() {
+    super();
 
     this.state = { visible: false };
 
@@ -33,39 +33,44 @@ export default class Settings extends React.Component {
   }
 
   render() {
-    const levels = this.props.levels;
+    const { levels, isMute, onMute } = this.props;
+
+    const openButtonClasses = classnames(styles.button, styles.buttonSettings);
+
+    const muteButtonClasses = classnames(styles.button, styles.buttonMute, {
+      [styles.buttonMuted]: isMute
+    });
 
     return (
-      <div className="kanji-settings">
-        <div className="kanji-button kanji-button__settings" onMouseUp={ this._open }>⚙</div>
+      <div className={ styles.settings }>
+        <div className={ openButtonClasses } onMouseUp={ this._open }>⚙</div>
 
-        <div className={ 'kanji-button kanji-button__mute' + (this.props.isMute ? ' kanji-button__muted' : '') }
-             onMouseDown={ this.props.onMute }>♫</div>
+        <div className={ muteButtonClasses } onMouseDown={ onMute }>♫</div>
 
         <Popup visible={ this.state.visible } onClose={ this._close }>
-          <div className="kanji-settings-popup">
-            <div className="kanji-settings-control">
+          <div className={ styles.popup }>
+            <div className={ styles.control }>
               <label>
                 <input type="checkbox" value="jlpt5" checked={ levels.jlpt5 } onChange={ this._onChange } />
                 JLPT 5
               </label>
             </div>
 
-            <div className="kanji-settings-control">
+            <div className={ styles.control }>
               <label>
                 <input type="checkbox" value="jlpt4" checked={ levels.jlpt4 } onChange={ this._onChange } />
                 JLPT 4
               </label>
             </div>
 
-            <div className="kanji-settings-control">
+            <div className={ styles.control }>
               <label>
                 <input type="checkbox" value="jlpt3" checked={ levels.jlpt3 } onChange={ this._onChange } />
                 JLPT 3
               </label>
             </div>
 
-            <div className="kanji-settings-control">
+            <div className={ styles.control }>
               <label>
                 <input type="checkbox" value="jlpt2" checked={ levels.jlpt2 } onChange={ this._onChange } />
                 JLPT 2

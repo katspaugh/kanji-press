@@ -1,0 +1,53 @@
+.info {
+  position: relative;
+  z-index: 2;
+  max-height: 30vh;
+  font-size: 5vh;
+  padding: 2vh 5vh;
+  text-align: center;
+}
+
+@media only screen and (orientation: portrait) {
+  .info {
+    max-height: 100%;
+  }
+}
+
+.task {
+  font-family: Times, serif;
+}
+
+.hint {
+  font-size: 0.8em;
+  margin-top: 0.5em;
+}
+
+.answer {
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  white-space: nowrap;
+  transform: translateX(-50%) translateY(-50%) scale(1);
+  transition: transform 100ms ease-in;
+}
+
+.reading {
+  font-size: 0.35em;
+  font-weight: 100;
+}
+
+.reading span {
+  color: #777;
+}
+
+.infoCorrect .hint,
+.infoCorrect .task {
+  display: none;
+}
+
+.infoCorrect .answer {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-50%) scale(2);
+}

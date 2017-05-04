@@ -1,11 +1,12 @@
 import React from 'react';
-
 import Storage from '../services/storage.js';
 import Popup from './popup.jsx';
+import styles from '../css/home-screen-bubble.css';
+
 
 const storage = new Storage('kanji-press-home-screen-msg');
 
-export default class HomeScreenBubble extends React.Component {
+export default class HomeScreenBubble extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -37,7 +38,7 @@ export default class HomeScreenBubble extends React.Component {
 
     return (
       <Popup visible={ this.isVisible() } onClose={ this._onClose }>
-        <div className="kanji-bubble">Add this web app to your Home Screen</div>
+        <div className={ styles.bubble }>Add this web app to your Home Screen</div>
       </Popup>
     );
   }

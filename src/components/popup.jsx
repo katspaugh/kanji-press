@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class Popup extends React.Component {
+
+export default class Popup extends React.PureComponent {
   componentDidMount() {
     const domNode = ReactDOM.findDOMNode(this);
 
@@ -21,8 +22,12 @@ export default class Popup extends React.Component {
   }
 
   render() {
+    const style = {
+      display: this.props.visible ? 'block' : 'none'
+    };
+
     return (
-      <div className={ 'kanji-popup' + (this.props.visible ? ' kanji-popup__visible' : '') }>
+      <div style={ style }>
         { this.props.children }
       </div>
     );

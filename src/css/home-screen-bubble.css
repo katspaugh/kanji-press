@@ -1,0 +1,41 @@
+@keyframes slide-up {
+  0% { transform: translateY(120%) scale(0.5); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.bubble {
+  display: none;
+}
+
+@media only screen and (max-width: 1024px)  {
+  .bubble {
+    display: block;
+    background: rgba(30, 30, 30, 0.9);
+    color: #fff;
+    padding: 6vw;
+    left: 12%;
+    right: 12%;
+    bottom: 15px;
+    text-align: center;
+    position: absolute;
+    z-index: 10;
+    font-size: 4vh;
+    border-radius: 4px;
+    transform-origin: bottom center;
+    animation: slide-up 300ms ease-in;
+  }
+
+  .bubble:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 0px;
+    display: block;
+    width: 0px;
+    z-index: 1;
+    bottom: -15px;
+    left: 50%;
+    margin-left: -15px;
+    border-color: rgba(30, 30, 30, 0.9) transparent;
+  }
+}

@@ -1,0 +1,60 @@
+@keyframes scale-up {
+  0% { transform: scale(0.5); }
+  100% { transform: scale(1); }
+}
+
+.button {
+  position: absolute;
+  top: 1vh;
+  padding: 1vh;
+  height: 1em;
+  width: 1em;
+  line-height: 4vh;
+  z-index: 3;
+  cursor: pointer;
+  color: #333;
+  text-align: left;
+  font-size: 4vh;
+  font-family: Menlo, monospace;
+  text-align: center;
+  user-select: none;
+}
+
+.button:active,
+.button:hover {
+  color: #000;
+}
+
+.buttonSettings {
+  right: 1vh;
+}
+
+.buttonMute {
+  left: 1vh;
+}
+
+.buttonMuted {
+  opacity: 0.25;
+}
+
+.popup {
+  position: absolute;
+  z-index: 2;
+  right: 1vh;
+  top: 7vh;
+  padding: 1vh 2vh;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transform-origin: top right;
+  animation: scale-up 100ms ease-in;
+}
+
+.control {
+  margin: 0.5em 0;
+  user-select: none;
+}
+
+.control input {
+  margin-right: 0.5em;
+}

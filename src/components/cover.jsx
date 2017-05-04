@@ -1,21 +1,21 @@
 import React from 'react';
-
 import { random } from '../services/utils.js';
+import styles from '../css/cover.css';
 
 const backgrounds = [
-  '/src/images/cover-1.gif',
-  '/src/images/cover-2.gif',
-  '/src/images/cover-3.gif'
+  '/src/assets/images/cover-1.gif',
+  '/src/assets/images/cover-2.gif',
+  '/src/assets/images/cover-3.gif'
 ];
 
-export default class Cover extends React.Component {
+export default class Cover extends React.PureComponent {
   render() {
     const style = {
       backgroundImage: `url(${ random(backgrounds) })`
     };
 
     return (
-      <div className="kanji-cover" style={ style }></div>
+      <div className={ styles.cover } style={ style }></div>
     );
   }
 }

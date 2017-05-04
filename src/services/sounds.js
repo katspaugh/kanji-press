@@ -1,7 +1,7 @@
 const sounds = {
-  right: '/src/sounds/right.wav',
-  wrong: '/src/sounds/wrong.wav',
-  tada:  '/src/sounds/tada.wav'
+  right: '/src/assets/sounds/right.wav',
+  wrong: '/src/assets/sounds/wrong.wav',
+  tada:  '/src/assets/sounds/tada.wav'
 };
 
 const ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -20,34 +20,27 @@ const createSource = (buffer) => {
 
 const decode = (data) => {
   return new Promise((resolve, reject) => {
-    ac.decodeAudioData(data, resolve, reject)
+    ac.decodeAudioData(data, resolve, reject);
   });
 };
 
-const ajax = (url) => {
-  let xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.responseType = 'arraybuffer';
-  xhr.send();
-
-  return new Promise((resolve, reject) => {
-    xhr.onload = () => resolve(xhr.response);
-    xhr.onerror = () => reject(xhr.statusText);
-  });
+const download = (url) => {
+  return fetch(url)
+    .then(response => response.arrayBuffer());
 };
 
 const playBuffer = (buffer) => {
   setTimeout(() => {
     createSource(buffer).start()
-  }, 0);
+  }, 4);
 };
 
-let buffers = Object.keys(sounds).reduce((acc, key) => {
-  ajax(sounds[key])
+const buffers = {};
+Object.keys(sounds).forEach(key => {
+  download(sounds[key])
     .then(decode)
-    .then((buffer) => acc[key] = buffer);
-  return acc;
-}, {});
+    .then(buf => buffers[key] = buf);
+});
 
 export default {
   playRight: () => playBuffer(buffers.right),

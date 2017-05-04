@@ -1,13 +1,12 @@
 import React from 'react';
-
 import { randomColor, random } from '../services/utils.js';
 import Square from './square.jsx';
-
+import styles from '../css/grid.css';
 
 const squaresCount = 25;
 
 
-export default class Grid extends React.Component {
+export default class Grid extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -96,7 +95,7 @@ export default class Grid extends React.Component {
     });
 
     return (
-      <div className="kanji-grid">{ squares }</div>
+      <div className={ styles.grid }>{ squares }</div>
     );
   }
 }

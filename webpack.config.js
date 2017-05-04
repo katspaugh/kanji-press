@@ -1,18 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 
-var isProd = (process.env.NODE_ENV == 'production');
-
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   cache: true,
-  debug: !isProd,
+  debug: true,
 
   entry: path.resolve(__dirname, 'src/index.js'),
 
   output: {
     path: path.resolve(__dirname),
-    filename: 'app.js'
+    filename: 'dist/app.js'
   },
 
   module: {
@@ -26,9 +24,21 @@ module.exports = {
           path.resolve(__dirname, 'src')
         ]
       },
-      { test: /\.json$/, loader: 'json' }
+
+      { test: /\.json$/, loader: 'json' },
+
+      {
+        test: /\.css$/,
+        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+      }
     ]
   },
 
-  plugins: isProd ? [ new webpack.optimize.UglifyJsPlugin() ] : []
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    })
+  ]
 };

@@ -6,7 +6,7 @@ export default class Storage {
   }
 
   get() {
-    const data = localStorage.getItem(this.key, null);
+    const data = localStorage.getItem(this.key);
     return JSON.parse(data);
   };
 

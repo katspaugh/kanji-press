@@ -1,0 +1,46 @@
+.square {
+  width: 20%;
+  height: 20%;
+}
+
+@media (pointer:fine) {
+  .square {
+    transition: transform 100ms ease-in;
+  }
+
+  .square:hover {
+    transform: scale(1.1);
+  }
+
+  .square:active,
+  .squareDone:hover {
+    transform: none;
+  }
+}
+
+.square span {
+  background-color: #fff;
+  line-height: 14vh;
+  font-size: 6vh;
+  text-align: center;
+  width: 96%;
+  height: 96%;
+  margin: 2%;
+  display: block;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.squareDone span {
+  cursor: default;
+  pointer-events: none;
+  border: none;
+}
+
+@media only screen and (orientation: portrait) {
+  .square span {
+    line-height: 19vw;
+    font-size: 9vw;
+  }
+}

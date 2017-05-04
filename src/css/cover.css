@@ -1,0 +1,25 @@
+@keyframes fade-in {
+  0% { opacity: 0; }
+  90% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.cover {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: repeat;
+  background-position: center center;
+  animation: fade-in 1.5s ease-in;
+}
+
+@media only screen and (orientation: portrait) {
+  .cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}

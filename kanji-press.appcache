@@ -1,14 +1,13 @@
 CACHE MANIFEST
-# 2017-02-26:v1.2.3
+# 2017-05-04:v1.3.0
 
 index.html
-src/css/style.css
-/src/images/cover-1.gif
-/src/images/cover-2.gif
-/src/images/cover-3.gif
-/src/images/app-icon.png
-/src/images/app-splash.png
-src/sounds/right.wav
-src/sounds/wrong.wav
-src/sounds/tada.wav
-app.js
+src/assets/images/cover-1.gif
+src/assets/images/cover-2.gif
+src/assets/images/cover-3.gif
+src/assets/images/app-icon.png
+src/assets/images/app-splash.png
+src/assets/sounds/right.wav
+src/assets/sounds/wrong.wav
+src/assets/sounds/tada.wav
+dist/app.js

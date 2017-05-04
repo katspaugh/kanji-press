@@ -1,20 +1,25 @@
-const Synthesis = window.speechSynthesis;
-const Utterance = window.SpeechSynthesisUtterance;
-
-const lang = 'ja-JP';
-
+/**
+ * Speak a piece of text
+ *
+ * @param {string} text
+ * @param {string} lang
+ */
 export default function speak(text) {
-  const phrase = new Utterance();
+  const lang = 'ja-JP';
 
-  const voices = Synthesis.getVoices().filter((voice) => voice.lang == lang);
-  if (voices.length > 1) {
-    phrase.voice = voices[1];
-  }
+  speechSynthesis.cancel();
 
-  phrase.text = text + '。';
-  phrase.lang = lang;
-  phrase.rate = 1;
+  let speech = new SpeechSynthesisUtterance();
 
-  Synthesis.cancel();
-  Synthesis.speak(phrase);
-};
+  const voice = speechSynthesis.getVoices().filter(voice => {
+    return !voice.localService && voice.lang.startsWith(lang);
+  })[0];
+  if (voice) speech.voice = voice;
+
+  speech.text = text + '。';
+  speech.lang = lang;
+  speech.rate = 1;
+  speechSynthesis.speak(speech);
+}
+
+speak('');

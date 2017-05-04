@@ -1,16 +1,16 @@
 import React from 'react';
-
+import classnames from 'classnames';
 import Storage from '../services/storage.js';
 import Sounds from '../services/sounds.js';
 import Speech from '../services/speech.js';
 import WordLists from '../services/word-lists.js';
 import { random, shuffle } from '../services/utils.js';
-
 import Grid from './grid.jsx';
 import Info from './info.jsx';
 import Cover from './cover.jsx';
 import Settings from './settings.jsx';
 import HomeScreenBubble from './home-screen-bubble.jsx';
+import styles from '../css/app-root.css';
 
 
 const storage = new Storage('kanji-press');
@@ -24,7 +24,7 @@ const wordLengthDistributions = [
 ];
 
 
-export default class AppRoot extends React.Component {
+export default class AppRoot extends React.PureComponent {
   constructor() {
     super();
 
@@ -188,20 +188,23 @@ export default class AppRoot extends React.Component {
     const currentWord = this.state.words[this.state.currentWordIndex];
     const isCorrect = this.state.correctCount == currentWord.word.length;
     const isReset = isCorrect && this.isFinished();
-    const cover = isReset ? <Cover /> : '';
+
+    const classes = classnames(styles.app, {
+      [styles.appRestart]: isReset
+    });
 
     return (
-      <div className={ 'kanji-app' + (isReset ? ' kanji-app__restart' : '') }>
-        <div className="kanji-top">
+      <div className={ classes }>
+        <div className={ styles.top }>
           <Info item={ currentWord }
                 showHint={ this.state.incorrectCount > 0 }
                 showAnswer={ this.state.incorrectCount > 2 }
                 isCorrect={ isCorrect } />
 
-          { cover }
+            { isReset ? <Cover /> : '' }
         </div>
 
-        <div className="kanji-main">
+        <div className={ styles.main }>
           <Grid words={ this.state.words }
                 currentWordIndex={ this.state.currentWordIndex }
                 doneItems={ this.state.doneItems }

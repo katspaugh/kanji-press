@@ -1,9 +1,11 @@
 import React from 'react';
+import classnames from 'classnames';
 import { randomColor } from '../services/utils.js';
+import styles from '../css/square.css';
 
-export default class Square extends React.Component {
-  constructor(props) {
-    super(props);
+export default class Square extends React.PureComponent {
+  constructor() {
+    super();
 
     this.style = {
       borderColor: randomColor()
@@ -35,9 +37,12 @@ export default class Square extends React.Component {
           Object.assign({ backgroundColor: this.props.color }, this.style) :
           this.style;
 
+    const classes = classnames(styles.square, {
+      [styles.squareDone]: this.props.isDone
+    });
+
     return (
-      <div className={ 'kanji-square' + (this.props.isDone ? ' kanji-square__done' : '') }
-           onMouseDown={ this._onClick }>
+      <div className={ classes } onMouseDown={ this._onClick }>
         <span style={ style }>{ this.props.item.symbol }</span>
       </div>
     );
