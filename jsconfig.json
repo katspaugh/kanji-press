@@ -3,11 +3,10 @@
     "target": "ES6",
     "allowSyntheticDefaultImports": true,
     "noEmit": true,
-    "allowJs": true,
     "checkJs": true,
     "jsx": "react",
 
-    "lib": [ "DOM", "ES2017" ]
+    "lib": [ "dom", "es2017" ]
   },
   "include": [
     "./src/"
