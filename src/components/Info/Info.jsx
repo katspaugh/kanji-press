@@ -1,24 +1,22 @@
 import React from 'react';
 import classnames from 'classnames';
-import styles from '../css/info.css';
+import styles from './Info.css';
 
 export default class HomeScreenBubble extends React.PureComponent {
   render() {
-    const props = this.props;
-    const answer = props.item.word;
-    const reading = props.item.reading;
-    const level = props.item.level;
+    const { word, meaning, reading, level } = this.props.item;
 
-    const task = props.item.meaning
+    const task = meaning
       .split(';')
       .slice(0, 2)
       .map(part => part.split(',').slice(0, 2).join(','))
       .join(';');
 
-    const hintText = props.showAnswer ? answer : reading;
-    const hint = props.showHint ? <div className={ styles.hint }>{ hintText }</div> : '';
+    const hintText = this.props.showAnswer ? word : reading;
+    const hint = this.props.showHint ? <div className={ styles.hint }>{ hintText }</div> : '';
+
     const classes = classnames(styles.info, {
-      [styles.infoCorrect]: props.isCorrect
+      [styles.infoCorrect]: this.props.isCorrect
     });
 
     return (
@@ -28,7 +26,7 @@ export default class HomeScreenBubble extends React.PureComponent {
         { hint }
 
         <div className={ styles.answer }>
-          { answer }
+          { word }
           <div className={ styles.reading }>
             { reading }
             <span> – { level }</span>

@@ -2,7 +2,7 @@ const rnd = (n) => {
   return Math.floor(Math.random() * n);
 };
 
-export function random(arr) {
+export function randomItem(arr) {
   return arr[rnd(arr.length)];
 };
 

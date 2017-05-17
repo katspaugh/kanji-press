@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
-import { randomColor } from '../services/utils.js';
-import styles from '../css/square.css';
+import { randomColor } from '../../services/utils.js';
+import styles from './Square.css';
 
 export default class Square extends React.PureComponent {
   constructor() {

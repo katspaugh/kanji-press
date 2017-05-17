@@ -1,16 +1,16 @@
 import React from 'react';
 import classnames from 'classnames';
-import Storage from '../services/storage.js';
-import Sounds from '../services/sounds.js';
-import Speech from '../services/speech.js';
-import WordLists from '../services/word-lists.js';
-import { random, shuffle } from '../services/utils.js';
-import Grid from './grid.jsx';
-import Info from './info.jsx';
-import Cover from './cover.jsx';
-import Settings from './settings.jsx';
-import HomeScreenBubble from './home-screen-bubble.jsx';
-import styles from '../css/app-root.css';
+import Storage from '../../services/storage.js';
+import Sounds from '../../services/sounds.js';
+import Speech from '../../services/speech.js';
+import WordLists from '../../services/word-lists.js';
+import { randomItem, shuffle } from '../../services/utils.js';
+import Grid from '../Grid/Grid.jsx';
+import Info from '../Info/Info.jsx';
+import Cover from '../Cover/Cover.jsx';
+import Settings from '../Settings/Settings.jsx';
+import HomeScreenBubble from '../HomeScreenBubble/HomeScreenBubble.jsx';
+import styles from './App.css';
 
 
 const storage = new Storage('kanji-press');
@@ -24,7 +24,7 @@ const wordLengthDistributions = [
 ];
 
 
-export default class AppRoot extends React.PureComponent {
+export default class App extends React.PureComponent {
   constructor() {
     super();
 
@@ -60,7 +60,7 @@ export default class AppRoot extends React.PureComponent {
 
     if (!data.length) return this.state.words;
 
-    const distribution = random(wordLengthDistributions);
+    const distribution = randomItem(wordLengthDistributions);
 
     const words = Object.keys(distribution)
       .reduce((acc, key) => {
@@ -71,7 +71,7 @@ export default class AppRoot extends React.PureComponent {
 
         for (let i = 0; i < times; i++) {
           for (let j = 0; j < retries; j++) {
-            const word = random(filteredWords);
+            const word = randomItem(filteredWords);
             if (randomWords.indexOf(word) == -1) {
               randomWords.push(word);
               break;

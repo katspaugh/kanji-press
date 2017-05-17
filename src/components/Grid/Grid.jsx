@@ -1,7 +1,7 @@
 import React from 'react';
-import { randomColor, random } from '../services/utils.js';
-import Square from './square.jsx';
-import styles from '../css/grid.css';
+import { randomColor, randomItem } from '../../services/utils.js';
+import Square from '../Square/Square.jsx';
+import styles from './Grid.css';
 
 const squaresCount = 25;
 
@@ -22,7 +22,7 @@ export default class Grid extends React.PureComponent {
       return acc;
     }, []);
 
-    let startIndex = random(emptyIndeces);
+    let startIndex = randomItem(emptyIndeces);
 
     symbols.reduce((prevIndex, symbol) => {
       grid[prevIndex] = { symbol };

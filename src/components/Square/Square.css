@@ -35,7 +35,6 @@
 .squareDone span {
   cursor: default;
   pointer-events: none;
-  border: none;
 }
 
 @media only screen and (orientation: portrait) {

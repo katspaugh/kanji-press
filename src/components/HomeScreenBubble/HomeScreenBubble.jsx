@@ -1,7 +1,7 @@
 import React from 'react';
-import Storage from '../services/storage.js';
-import Popup from './popup.jsx';
-import styles from '../css/home-screen-bubble.css';
+import Storage from '../../services/storage.js';
+import Popup from '../Popup/Popup.jsx';
+import styles from './HomeScreenBubble.css';
 
 
 const storage = new Storage('kanji-press-home-screen-msg');

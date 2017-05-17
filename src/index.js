@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppRoot from './components/app-root.jsx';
+import App from './components/App/App.jsx';
 
 ReactDOM.render(
-  React.createElement(AppRoot),
+  React.createElement(App),
   document.querySelector('#app-root')
 );
 

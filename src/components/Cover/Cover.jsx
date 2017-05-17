@@ -1,6 +1,6 @@
 import React from 'react';
-import { random } from '../services/utils.js';
-import styles from '../css/cover.css';
+import { randomItem } from '../../services/utils.js';
+import styles from './Cover.css';
 
 const backgrounds = [
   '/src/assets/images/cover-1.gif',
@@ -11,7 +11,7 @@ const backgrounds = [
 export default class Cover extends React.PureComponent {
   render() {
     const style = {
-      backgroundImage: `url(${ random(backgrounds) })`
+      backgroundImage: `url(${ randomItem(backgrounds) })`
     };
 
     return (

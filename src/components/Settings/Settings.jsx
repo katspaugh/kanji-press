@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
-import Popup from './popup.jsx';
-import styles from '../css/settings.css';
+import Popup from '../Popup/Popup.jsx';
+import styles from './Settings.css';
 
 
 export default class Settings extends React.PureComponent {
