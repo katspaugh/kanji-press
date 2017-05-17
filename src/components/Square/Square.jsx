@@ -20,10 +20,6 @@ export default class Square extends React.PureComponent {
     this.props.onSelect(this.props.item);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.isDone !== this.props.isDone || nextProps.item !== this.props.item;
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.item !== this.props.item) {
       this.style = {
